@@ -1,0 +1,26 @@
+name: test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/**"
+      - "common/**"
+  pull_request:
+    types:
+      - opened
+      - reopened
+    paths:
+      - ".github/**"
+      - "common/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install npm@8
+        run: date
