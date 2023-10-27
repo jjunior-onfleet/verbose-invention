@@ -1,7 +1,16 @@
 name: ci
 
 on:
+  # require test
+  workflow_run:
+    workflows: [test]
+    types: [completed]
+  # run manually 
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/**"
+      - "common/**"
   pull_request:
     types:
       - closed
@@ -20,5 +29,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install npm@8
+      - name: Build artifact
         run: date
