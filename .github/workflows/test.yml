@@ -1,15 +1,22 @@
 name: test
 
 on:
+  # run manually
   workflow_dispatch:
+  # ignore when main|master|release
   push:
+    branches-ignore:
+      - main
+      - master
+      - release
     paths:
       - ".github/**"
       - "common/**"
   pull_request:
-    types:
-      - opened
-      - reopened
+    branches-ignore:
+      - main
+      - master
+      - release
     paths:
       - ".github/**"
       - "common/**"

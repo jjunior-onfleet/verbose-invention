@@ -1,21 +1,21 @@
 name: ci
 
 on:
-  # require test
-  workflow_run:
-    workflows: [test]
-    types: [completed]
   # run manually 
   workflow_dispatch:
+  # merge into master|release
   push:
+    branches:
+      - main
+      - release
     paths:
       - ".github/**"
       - "common/**"
-  pull_request:
+  # PR to designated branches
+  pull_request_target:
     types:
-      - closed
+      - opened
     branches:
-      - main
       - squad
     paths:
       - ".github/**"
