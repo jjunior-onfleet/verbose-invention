@@ -30,3 +30,12 @@ jobs:
         id: target_branch
         shell: bash
         run: echo ${{ github.head_ref || github.ref_name }}
+
+      - name: ECS service deployment
+        run: |
+          if [[ ${{ github.head_ref || github.ref_name }} == "refs/heads/release" ]] || [[ ${{ github.head_ref || github.ref_name }} == "refs/heads/main" ]]; then
+            echo "master or release deployments currently not allowed. Skipping ECS deployment..."
+            exit 0
+          else
+            echo "aws ecs update-service --cluster ${{ github.head_ref || github.ref_name }} --service ${{ github.head_ref || github.ref_name }}-yerba --force-new-deployment --region us-east-1"
+          fi
