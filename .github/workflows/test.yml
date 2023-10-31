@@ -26,4 +26,3 @@ jobs:
         id: target_branch
         shell: bash
         run: echo ${{ github.head_ref || github.ref_name }}
-
