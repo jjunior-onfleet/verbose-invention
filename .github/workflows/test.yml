@@ -12,14 +12,6 @@ on:
     paths:
       - ".github/**"
       - "common/**"
-  pull_request:
-    branches-ignore:
-      - main
-      - master
-      - release
-    paths:
-      - ".github/**"
-      - "common/**"
 
 jobs:
   test:
