@@ -33,7 +33,7 @@ jobs:
 
       - name: ECS service deployment
         run: |
-          if [[ ${{ github.head_ref || github.ref_name }} == "refs/heads/release" ]] || [[ ${{ github.head_ref || github.ref_name }} == "refs/heads/main" ]]; then
+          if [[ ${{ github.head_ref || github.ref_name }} == "release" ]] || [[ ${{ github.head_ref || github.ref_name }} == "main" ]]; then
             echo "master or release deployments currently not allowed. Skipping ECS deployment..."
             exit 0
           else
