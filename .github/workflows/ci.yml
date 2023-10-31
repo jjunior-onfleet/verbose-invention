@@ -15,15 +15,6 @@ on:
     paths:
       - ".github/**"
       - "common/**"
-  # PR to designated branches
-  pull_request:
-    types:
-      - opened
-    branches:
-      - ${{ env.DESIGNATED_BRANCHES }}
-    paths:
-      - ".github/**"
-      - "common/**"
 
 jobs:
   ci:
