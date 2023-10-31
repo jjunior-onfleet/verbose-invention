@@ -1,13 +1,14 @@
 name: ci
 
-env:
-  DESIGNATED_BRANCHES: '["squad,team"]'
-
 on:
   # run manually 
   workflow_dispatch:
   # merge into master|release
   push:
+    branches:
+      - main
+      - release
+      - squad
     paths:
       - ".github/**"
       - "common/**"
@@ -16,8 +17,6 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: ${{ contains(fromJson(env.DESIGNATED_BRANCHES), github.head_ref) }}
-
     steps:
       - uses: actions/checkout@v3
 
