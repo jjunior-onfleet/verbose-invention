@@ -25,5 +25,5 @@ jobs:
       - name: print current branch
         id: target_branch
         shell: bash
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.head_ref || github.ref_name }}
 
