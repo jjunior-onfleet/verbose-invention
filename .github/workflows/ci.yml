@@ -14,7 +14,7 @@ on:
   # PR to designated branches
   pull_request:
     types:
-      - closed
+      - opened
     branches:
       - squad
     paths:
