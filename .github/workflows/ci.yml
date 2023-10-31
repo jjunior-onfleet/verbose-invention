@@ -9,6 +9,7 @@ on:
       - main
       - release
       - squad
+      - team
     paths:
       - ".github/**"
       - "common/**"
