@@ -12,14 +12,6 @@ on:
     paths:
       - ".github/**"
       - "common/**"
-  pull_request:
-    branches-ignore:
-      - main
-      - master
-      - release
-    paths:
-      - ".github/**"
-      - "common/**"
 
 jobs:
   test:
@@ -29,5 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run tests
-        run: date
+      - name: Set short github.sha
+        id: vars
+        shell: bash
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)"
+
+      - name: Getting the branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+        id: branch_name

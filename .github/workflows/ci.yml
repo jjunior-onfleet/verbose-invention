@@ -12,9 +12,9 @@ on:
       - ".github/**"
       - "common/**"
   # PR to designated branches
-  pull_request_target:
+  pull_request:
     types:
-      - opened
+      - closed
     branches:
       - squad
     paths:
@@ -29,5 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build artifact
-        run: date
+      - name: Set short github.sha
+        id: vars
+        shell: bash
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)"
+
+      - name: Getting the branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" 
+        id: branch_name
+
