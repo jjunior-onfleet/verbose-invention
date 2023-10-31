@@ -8,10 +8,6 @@ on:
   workflow_dispatch:
   # merge into master|release
   push:
-    branches:
-      - main
-      - release
-      - ${{ env.DESIGNATED_BRANCHES }}
     paths:
       - ".github/**"
       - "common/**"
@@ -20,6 +16,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: ${{ contains(fromJson(env.DESIGNATED_BRANCHES), github.head_ref) }}
 
     steps:
       - uses: actions/checkout@v3
