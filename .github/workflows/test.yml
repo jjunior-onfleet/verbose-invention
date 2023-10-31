@@ -22,7 +22,8 @@ jobs:
         shell: bash
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)"
 
-      - name: Getting the branch name
+      - name: print current branch
+        id: target_branch
         shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-        id: branch_name
+        run: echo ${{ github.ref }}
+
