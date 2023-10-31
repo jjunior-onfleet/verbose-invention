@@ -27,3 +27,7 @@ jobs:
         shell: bash
         run: echo ${{ github.head_ref || github.ref_name }}
 
+      - name: break intentionally
+        id: crash
+        shell: bash
+        run: exit 1
