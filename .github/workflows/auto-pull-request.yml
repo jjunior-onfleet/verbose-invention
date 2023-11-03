@@ -21,15 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Node
-        uses: actions/setup-node@v1
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5.0.2
         with:
-          node-version: 14
-
-      - name: Open pull request
-        id: pull
-        uses: tretuna/sync-branches@1.4.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          TO_BRANCH: '${{ matrix.branches }}'
-          FROM_BRANCH: "main"
+          base: main
+          branch: ${{ matrix.branches }}
