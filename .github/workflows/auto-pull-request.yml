@@ -32,7 +32,15 @@ jobs:
           gh config set prompt disabled
 
           # Check if a pull request with the same title already exists
-          pr_exists=$(gh pr list --title "Sync main with ${{ matrix.branches }}")
+          pr_exists=$(gh pr list \
+              --state open \
+              --base ${{ matrix.branches }} \
+              --head main \
+              --json title \
+              --jq ".[].title" \
+              | grep "Sync main with ${{ matrix.branches }}")
+          
+          echo "PR ${pr_exists}"
 
           if [ -z "$pr_exists" ]; then
             # Create a pull request using gh CLI
