@@ -39,6 +39,7 @@ jobs:
             --state open \
             --base ${{ matrix.branches }} \
             --head main)
+          echo "pr exists value: $pr_exists"
           echo "pr_exists=$pr_exists" >> $GITHUB_ENV
       
       - name: Raise Pull Request
