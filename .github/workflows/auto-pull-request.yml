@@ -39,10 +39,10 @@ jobs:
             --state open \
             --base ${{ matrix.branches }} \
             --head main)
-          echo "::set-output name=pr_exists::$pr_exists"
-
+          echo "pr_exists=$pr_exists" >> $GITHUB_ENV
+      
       - name: Raise Pull Request
-        if: steps.check_pr.outputs.pr_exists == ''
+        if: env.pr_exists == ''
         run: |
           gh pr create \
             --title "Sync main with ${{ matrix.branches }}" \
@@ -51,9 +51,8 @@ jobs:
             --reviewer jjunior-onfleet \
             --label automated \
             --head main
-
+      
       - name: Display PR already exists
-        if: steps.check_pr.outputs.pr_exists != ''
+        if: env.pr_exists != ''
         run: |
           echo "Pull request already exists"
-
