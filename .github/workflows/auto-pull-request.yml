@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install gh CLI
-        run: sudo apt install gh
+        run: sudo apt install gh -y
 
       - name: Raise Pull Request
         run: |
