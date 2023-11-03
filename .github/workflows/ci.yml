@@ -6,7 +6,6 @@ on:
   # merge into master|release
   push:
     branches:
-      - main
       - release
       - squad
       - team
