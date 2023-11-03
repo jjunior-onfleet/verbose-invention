@@ -58,3 +58,10 @@ jobs:
         if: env.pr_exists != ''
         run: |
           echo "Pull request already exists"
+
+      - name: Run Automerge
+        id: automerge
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_ERROR_FAIL: true
