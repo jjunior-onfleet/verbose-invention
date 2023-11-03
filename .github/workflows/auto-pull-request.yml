@@ -24,5 +24,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          base: main
-          branch: ${{ matrix.branches }}
+          branch: main
+          base:  ${{ matrix.branches }}
+          token: ${{ secrets.GITHUB_TOKEN }}
