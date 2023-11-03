@@ -70,6 +70,6 @@ jobs:
           URL: ${{ env.pr_url }}
 
       - name: Automerge feedback
-        if: steps.automerge.outputs.mergeResult == "merged" && env.pr_exists == ''
+        if: steps.automerge.outputs.mergeResult == 'merged' && env.pr_exists == ''
         run: |
           echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
