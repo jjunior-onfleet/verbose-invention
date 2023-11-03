@@ -1,0 +1,35 @@
+name: auto-pull-request
+
+on:
+  # run manually 
+  workflow_dispatch:
+  # merge into master|release
+  push:
+    branches:
+      - main
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        branches:
+          - team
+          - squad
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branches }}
+
+      - name: Reset designated branch
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: ${{ matrix.branches }}-sync-with-main
+          token: ${{ secrets.GITHUB_TOKEN }}
