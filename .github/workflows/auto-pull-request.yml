@@ -1,0 +1,35 @@
+name: auto-pull-request
+
+on:
+  # run manually 
+  workflow_dispatch:
+  # merge into master|release
+  push:
+    branches:
+      - main
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        branches:
+          - team
+          - squad
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Open pull request
+        id: pull
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          TO_BRANCH: '${{ matrix.branches }}'
+          FROM_BRANCH: "main"
