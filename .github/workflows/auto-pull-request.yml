@@ -25,6 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Ensure automated label exists
+        run: | 
+          gh label create automated \
+            --description "Automated" \
+            --color 0000FF \
+            --force
+
       - name: Check if PR exists
         id: check_pr
         run: |
