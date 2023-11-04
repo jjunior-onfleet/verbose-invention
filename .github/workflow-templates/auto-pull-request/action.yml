@@ -57,4 +57,5 @@ runs:
       env:
         MERGE_ERROR_FAIL: "true"
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
-        PULL_REQUEST: ${{ env.PR_NUMBER }}
+        BASE_BRANCHES: "${{ inputs.branch }}"
+        # PULL_REQUEST: ${{ env.PR_NUMBER }}
