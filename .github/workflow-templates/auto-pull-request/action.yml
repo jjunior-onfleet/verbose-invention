@@ -32,11 +32,12 @@ runs:
           --state open \
           --base "${{ inputs.branch }}" \
           --head main)
+        echo "pr_exists=$pr_exists"
         echo "pr_exists=$pr_exists" >> $GITHUB_ENV
 
     - name: Raise Pull Request
       id: create-pr
-      if: env.pr_exists != null && env.pr_exists != ''
+      if: env.pr_exists != ''
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
