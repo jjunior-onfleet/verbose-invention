@@ -1,4 +1,5 @@
 name: auto-pull-request
+description: Automatically creates and merges an pull request
 
 inputs:
   branch:
@@ -18,6 +19,8 @@ runs:
           --description "Default label for automerge action" \
           --color 0000FF \
           --force
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Check if PR exists
       id: check_pr
@@ -28,6 +31,8 @@ runs:
           --base "${{ inputs.branch }}" \
           --head main)
         echo "pr_exists=$pr_exists" >> $GITHUB_ENV
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Raise Pull Request
       id: create-pr
@@ -42,6 +47,8 @@ runs:
           --head main)
         echo "PR=$PR"
         echo "PR=$PR" >> $GITHUB_ENV
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Attempt auto-merge
       id: automerge
