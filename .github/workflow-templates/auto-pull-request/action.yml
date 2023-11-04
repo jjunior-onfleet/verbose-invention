@@ -64,7 +64,7 @@ runs:
 
     - name: Fail
       shell: bash
-      if: steps.automerge.outputs.mergeResult != "merged"
+      if: steps.automerge.outputs.mergeResult != 'merged'
       run: |
         echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} not merged!"
         echo "Merge result was: ${{ steps.automerge.outputs.mergeResult }}."
