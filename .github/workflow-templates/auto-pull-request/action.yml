@@ -33,7 +33,7 @@ runs:
           --base "${{ inputs.branch }}" \
           --head main \
           --json number \
-          --jq '.[]')
+          --jq '.[].number')
         echo "PR_EXISTS=$PR_EXISTS"
         echo "PR_EXISTS=$PR_EXISTS" >> $GITHUB_ENV
 
