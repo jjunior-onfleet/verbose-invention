@@ -48,8 +48,8 @@ runs:
           --base "${{ inputs.branch }}" \
           --label automerge \
           --head main)
-        echo "PR=$PR"
-        echo "PR=$PR" >> $GITHUB_ENV
+        echo "PR_NUMBER=$(basename "$PR")"
+        echo "PR_NUMBER=$(basename "$PR")" >> $GITHUB_ENV
 
     - name: Attempt auto-merge
       id: automerge
@@ -57,4 +57,4 @@ runs:
       env:
         MERGE_ERROR_FAIL: "true"
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
-        PULL_REQUEST: ${{ env.PR }}
+        PULL_REQUEST: ${{ env.PR_NUMBER }}
