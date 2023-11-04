@@ -28,16 +28,17 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
       run: |
-        pr_exists=$(gh pr list \
+        PR_EXISTS=$(gh pr list \
           --state open \
           --base "${{ inputs.branch }}" \
-          --head main)
-        echo "pr_exists=$pr_exists"
-        echo "pr_exists=$pr_exists" >> $GITHUB_ENV
+          --head main \
+          --jq '.[].number')
+        echo "PR_EXISTS=$PR_EXISTS"
+        echo "PR_EXISTS=$PR_EXISTS" >> $GITHUB_ENV
 
     - name: Raise Pull Request
       id: create-pr
-      if: env.pr_exists == ''
+      if: env.PR_EXISTS == ''
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
@@ -57,5 +58,4 @@ runs:
       env:
         MERGE_ERROR_FAIL: "true"
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
-        BASE_BRANCHES: "${{ inputs.branch }}"
-        # PULL_REQUEST: ${{ env.PR_NUMBER }}
+        PULL_REQUEST: ${{ env.PR_EXISTS || env.PR_NUMBER }}
