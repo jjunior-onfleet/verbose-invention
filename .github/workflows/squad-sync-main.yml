@@ -6,10 +6,12 @@ on:
       - main
 
 jobs:
-  ci:
+  auto-pull-request:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+
       - name: auto-pull-request
         uses: "./.github/workflow-templates/auto-pull-request"
         with:
