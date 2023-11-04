@@ -37,7 +37,7 @@ runs:
 
     - name: Raise Pull Request
       id: create-pr
-      if: env.pr_exists != ''
+      if: env.pr_exists == ''
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
