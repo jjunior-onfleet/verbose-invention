@@ -1,6 +1,9 @@
 name: auto-merge
 
 on:
+  pull_request:
+    types:
+      - labeled
   workflow_run:
     workflows:
       - auto-pull-request
@@ -26,4 +29,3 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_ERROR_FAIL: true
-          MERGE_RETRY_SLEEP: 10000
