@@ -10,7 +10,7 @@ env:
   GH_TOKEN: ${{ github.token }}
 
 jobs:
-  pull-request:
+  merge:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
