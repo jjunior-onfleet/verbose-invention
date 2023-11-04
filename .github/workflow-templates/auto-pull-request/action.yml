@@ -59,6 +59,13 @@ runs:
       id: automerge
       uses: "pascalgn/automerge-action@v0.15.6"
       env:
-        MERGE_ERROR_FAIL: true
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
         PULL_REQUEST: ${{ env.PR_EXISTS || env.PR_NUMBER }}
+
+    - name: Fail
+      shell: bash
+      if: steps.automerge.outputs.mergeResult != "merged"
+      run: |
+        echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} not merged!"
+        echo "Merge result was: ${{ steps.automerge.outputs.mergeResult }}."
+        exit 1
