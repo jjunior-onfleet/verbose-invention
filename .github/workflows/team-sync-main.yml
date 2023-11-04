@@ -1,6 +1,7 @@
-name: squad-sync
+name: team-sync
 env:
-  designated_branch: squad
+  designated_branch: team
+
 on:
   push:
     branches:
