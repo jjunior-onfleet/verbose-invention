@@ -1,0 +1,17 @@
+name: squad-sync-main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: auto-pull-request
+        uses: "./.github/workflow-templates/auto-pull-request"
+        with:
+          gh_token: "${{ secrets.GITHUB_TOKEN }}"
+          branch: squad
