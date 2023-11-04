@@ -2,16 +2,17 @@ name: auto-pull-request
 
 inputs:
   branch:
-    description: branch name
+    description: "Designated branch name"
     required: true
   gh_token:
-    description: github token
+    description: "GitHub token"
     required: true
 
 runs:
   using: "composite"
   steps:
     - name: Ensure automerge label exists
+      shell: bash
       run: |
         gh label create automerge \
           --description "Default label for automerge action" \
@@ -20,6 +21,7 @@ runs:
 
     - name: Check if PR exists
       id: check_pr
+      shell: bash
       run: |
         pr_exists=$(gh pr list \
           --state open \
@@ -30,6 +32,7 @@ runs:
     - name: Raise Pull Request
       id: create-pr
       if: env.pr_exists != null && env.pr_exists != ''
+      shell: bash
       run: |
         PR=$(gh pr create \
           --title "Auto-sync main branch with ${{ inputs.branch }}" \
@@ -44,6 +47,6 @@ runs:
       id: automerge
       uses: "pascalgn/automerge-action@v0.15.6"
       env:
-        MERGE_ERROR_FAIL: true
+        MERGE_ERROR_FAIL: "true"
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
         PULL_REQUEST: ${{ env.PR }}
