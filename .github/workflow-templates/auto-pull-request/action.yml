@@ -1,17 +1,21 @@
 name: auto-pull-request
+description: Automatically creates and merges an pull request
 
 inputs:
   branch:
-    description: branch name
+    description: "Designated branch name"
     required: true
   gh_token:
-    description: github token
+    description: "GitHub token"
     required: true
 
 runs:
   using: "composite"
   steps:
     - name: Ensure automerge label exists
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         gh label create automerge \
           --description "Default label for automerge action" \
@@ -20,16 +24,25 @@ runs:
 
     - name: Check if PR exists
       id: check_pr
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
-        pr_exists=$(gh pr list \
+        PR_EXISTS=$(gh pr list \
           --state open \
           --base "${{ inputs.branch }}" \
-          --head main)
-        echo "pr_exists=$pr_exists" >> $GITHUB_ENV
+          --head main \
+          --json number \
+          --jq '.[].number')
+        echo "PR_EXISTS=$PR_EXISTS"
+        echo "PR_EXISTS=$PR_EXISTS" >> $GITHUB_ENV
 
     - name: Raise Pull Request
       id: create-pr
-      if: env.pr_exists != null && env.pr_exists != ''
+      if: env.PR_EXISTS == ''
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         PR=$(gh pr create \
           --title "Auto-sync main branch with ${{ inputs.branch }}" \
@@ -37,13 +50,13 @@ runs:
           --base "${{ inputs.branch }}" \
           --label automerge \
           --head main)
-        echo "PR=$PR"
-        echo "PR=$PR" >> $GITHUB_ENV
+        echo "PR_NUMBER=$(basename "$PR")"
+        echo "PR_NUMBER=$(basename "$PR")" >> $GITHUB_ENV
 
     - name: Attempt auto-merge
       id: automerge
       uses: "pascalgn/automerge-action@v0.15.6"
       env:
-        MERGE_ERROR_FAIL: true
+        MERGE_ERROR_FAIL: "true"
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
-        PULL_REQUEST: ${{ env.PR }}
+        PULL_REQUEST: ${{ env.PR_EXISTS || env.PR_NUMBER }}
