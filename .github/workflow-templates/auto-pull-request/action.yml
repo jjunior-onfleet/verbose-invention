@@ -14,30 +14,32 @@ runs:
   steps:
     - name: Ensure automerge label exists
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         gh label create automerge \
           --description "Default label for automerge action" \
           --color 0000FF \
           --force
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Check if PR exists
       id: check_pr
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         pr_exists=$(gh pr list \
           --state open \
           --base "${{ inputs.branch }}" \
           --head main)
         echo "pr_exists=$pr_exists" >> $GITHUB_ENV
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Raise Pull Request
       id: create-pr
       if: env.pr_exists != null && env.pr_exists != ''
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh_token }}
       run: |
         PR=$(gh pr create \
           --title "Auto-sync main branch with ${{ inputs.branch }}" \
@@ -47,8 +49,6 @@ runs:
           --head main)
         echo "PR=$PR"
         echo "PR=$PR" >> $GITHUB_ENV
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
 
     - name: Attempt auto-merge
       id: automerge
