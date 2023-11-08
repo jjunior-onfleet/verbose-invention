@@ -85,8 +85,8 @@ runs:
                 "color": "FF0000",
                 "fields": [
                   {
-                    "title": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} failed to merge",
-                    "value": "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
+                    "title": "Pull request #/${{ steps.automerge.outputs.pullRequestNumber }} not merged",
+                    "value": "*Action required*: conflicts found while trying to merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
                     "short": false
                   }
                 ]
@@ -109,8 +109,8 @@ runs:
                 "color": "008000",
                 "fields": [
                   {
-                    "title": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} merged",
-                    "value": "Successfully auto-merged branch `main` into `${{ inputs.branch }}`",
+                    "title": "Pull request #${{ steps.automerge.outputs.pullRequestNumber }} merged",
+                    "value": "Successfully auto-merged branch `main` into `${{ inputs.branch }}`". \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }},
                     "short": true
                   }
                 ]
