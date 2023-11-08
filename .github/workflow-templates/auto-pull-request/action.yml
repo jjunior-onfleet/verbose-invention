@@ -14,6 +14,9 @@ inputs:
   slack_token:
     description: "Secret slack token"
     required: true
+  pr_base_url:
+    description: "Pull request base url"
+    required: true
 
 runs:
   using: "composite"
@@ -83,10 +86,10 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Pull request ${{PR_BASE_URL}}${{ steps.automerge.outputs.pullRequestNumber }} failed to auto-merge",
+            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} failed to auto-merge",
             "attachments": [
               {
-                "pretext": "Action required: conflicts found while trying to merge `main` into `"${{ inputs.branch }}"`",
+                "pretext": "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
                 "color": "FF0000",
                 "fields": [
                   {
@@ -99,7 +102,6 @@ runs:
           }
       env:
         SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
-        PR_BASE_URL: "${{ github.server_url }}/${{ github.repository }}/pull/"
 
     - name: Notify merge success
       id: slack_success
@@ -109,10 +111,10 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Pull request ${{PR_BASE_URL}}${{ steps.automerge.outputs.pullRequestNumber }} successfully merged",
+            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} successfully merged",
             "attachments": [
               {
-                "pretext": "Merged branch `main` into `"${{ inputs.branch }}"`"",
+                "pretext": "Merged branch `main` into `${{ inputs.branch }}`",
                 "color": "008000",
                 "fields": [
                   {
@@ -125,4 +127,3 @@ runs:
           }
       env:
         SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
-        PR_BASE_URL: "${{ github.server_url }}/${{ github.repository }}/pull/"
