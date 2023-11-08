@@ -86,7 +86,7 @@ runs:
                 "color": "FF0000",
                 "fields": [
                   {
-                    "value": ":this-is-fine: *Action required*: unable to auto-merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
+                    "value": ":this_is_fine: *Action required*: unable to auto-merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
                     "short": false
                   }
                 ]
