@@ -1,6 +1,8 @@
 name: squad-sync
 env:
   designated_branch: squad
+  slack_channel: C064EA5DBFV
+
 on:
   push:
     branches:
@@ -18,3 +20,4 @@ jobs:
         with:
           gh_token: "${{ secrets.GITHUB_TOKEN }}"
           branch: "${{ env.designated_branch }}"
+          slack_channel: ${{ env.slack_channel }}
