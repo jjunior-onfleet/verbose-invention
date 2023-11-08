@@ -92,7 +92,7 @@ runs:
                 "color": "FF0000",
                 "fields": [
                   {
-                    "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
+                    "title": "Auto-merge result: ${{ steps.automerge.outputs.mergeResult }}",
                     "value" : "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
                     "short": false
                   }
@@ -117,7 +117,7 @@ runs:
                 "color": "008000",
                 "fields": [
                   {
-                    "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
+                    "title": "Auto-merge result: ${{ steps.automerge.outputs.mergeResult }}",
                     "value": "Successfully auto-merged branch `main` into `${{ inputs.branch }}`",
                     "short": false
                   }
