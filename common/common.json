@@ -9,5 +9,6 @@
     "another_pr_change": 9,
     "automerge_stuff": 10,
     "try_to_break": 12,
-    "looks_good": 13
+    "looks_good": 13,
+    "test_ci_message": 14
 }
