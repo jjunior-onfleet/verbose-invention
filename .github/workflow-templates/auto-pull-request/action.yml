@@ -89,12 +89,12 @@ runs:
             "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} failed to auto-merge",
             "attachments": [
               {
-                "pretext": "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
                 "color": "FF0000",
                 "fields": [
                   {
                     "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
-                    "short": true
+                    "value" : "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
+                    "short": false
                   }
                 ]
               }
@@ -111,15 +111,15 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} successfully merged",
+            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} merged",
             "attachments": [
               {
-                "pretext": "Merged branch `main` into `${{ inputs.branch }}`",
                 "color": "008000",
                 "fields": [
                   {
                     "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
-                    "short": true
+                    "value": "Successfully auto-merged branch `main` into `${{ inputs.branch }}`",
+                    "short": false
                   }
                 ]
               }
