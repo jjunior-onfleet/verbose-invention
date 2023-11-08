@@ -13,6 +13,9 @@ on:
       - ".github/**"
       - "common/**"
 
+env:
+  SLACK_BOT_TOKEN: "${{ secrets.SLACK_BOT_TOKEN }}"
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -23,7 +26,7 @@ jobs:
       - name: Set short github.sha
         id: vars
         shell: bash
-        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)"
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
 
       - name: print current branch
         id: target_branch
@@ -38,3 +41,23 @@ jobs:
           else
             echo "aws ecs update-service --cluster ${{ github.head_ref || github.ref_name }} --service ${{ github.head_ref || github.ref_name }}-yerba --force-new-deployment --region us-east-1"
           fi
+
+      - name: Notify deploy
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: C064EA5DBFV
+          payload: |
+            {
+              "text": "*Deployment to ${{ github.head_ref || github.ref_name }} ECS cluster started*",
+              "attachments": [
+                  {
+                  "color": "0000FF",
+                  "fields": [
+                    {
+                      "value": ":rocket: Deployed `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
+                      "short": false
+                    }
+                  ]
+                }
+              ]
+            }
