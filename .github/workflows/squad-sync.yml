@@ -22,3 +22,4 @@ jobs:
           branch: "${{ env.designated_branch }}"
           slack_channel: ${{ env.slack_channel }}
           slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          pr_base_url: ${{ github.server_url }}/${{ github.repository }}/pull

@@ -14,6 +14,9 @@ inputs:
   slack_token:
     description: "Secret slack token"
     required: true
+  pr_base_url:
+    description: "Pull request base url"
+    required: true
 
 runs:
   using: "composite"
@@ -83,16 +86,15 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Failed to auto-merge pull request #${{ steps.automerge.outputs.pullRequestNumber }}!",
+            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} failed to auto-merge",
             "attachments": [
               {
-                "pretext": "Auto-pull request",
+                "pretext": "Action required: conflicts found while trying to merge `main` into `${{ inputs.branch }}`",
                 "color": "FF0000",
                 "fields": [
                   {
-                    "title": "Merge result",
-                    "short": true,
-                    "value": "${{ steps.automerge.outputs.mergeResult }}"
+                    "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
+                    "short": true
                   }
                 ]
               }
@@ -109,16 +111,15 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Pull request #${{ steps.automerge.outputs.pullRequestNumber }} successfully merged!",
+            "text": "Pull request ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }} successfully merged",
             "attachments": [
               {
-                "pretext": "Auto-pull request",
+                "pretext": "Merged branch `main` into `${{ inputs.branch }}`",
                 "color": "008000",
                 "fields": [
                   {
-                    "title": "Merge result",
-                    "short": true,
-                    "value": "${{ steps.automerge.outputs.mergeResult }}"
+                    "title": "Merge result: ${{ steps.automerge.outputs.mergeResult }}",
+                    "short": true
                   }
                 ]
               }
