@@ -76,7 +76,7 @@ runs:
     #     echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
 
     - name: Notify merge failure
-      id: slack_success
+      id: slack_failure
       if: steps.automerge.outputs.mergeResult != 'merged'
       uses: slackapi/slack-github-action@v1.24.0
       with:
