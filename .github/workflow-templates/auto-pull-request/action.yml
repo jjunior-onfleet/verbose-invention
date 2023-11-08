@@ -86,7 +86,7 @@ runs:
                 "color": "FF0000",
                 "fields": [
                   {
-                    "value": "*Action required*: conflicts found while trying to merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
+                    "value": ":fire-intensifies: *Action required*: unable to auto-merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
                     "short": false
                   }
                 ]
@@ -110,7 +110,7 @@ runs:
                 "color": "008000",
                 "fields": [
                   {
-                    "value": "Successfully auto-merged branch `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
+                    "value": ":white_check_mark: Successfully auto-merged branch `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
                     "short": false
                   }
                 ]
