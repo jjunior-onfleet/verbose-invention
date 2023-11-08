@@ -80,7 +80,7 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "*Pull request <${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}|#${{ steps.automerge.outputs.pullRequestNumber }}> not merged*",
+            "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} not merged*",
             "attachments": [
               {
                 "color": "FF0000",
@@ -124,5 +124,6 @@ runs:
       shell: bash
       if: steps.automerge.outputs.mergeResult != 'merged'
       run: |
-        echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} not merged"
+        echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} not merged."
+        echo "Merge result: ${{ steps.automerge.outputs.mergeResult }}. Action failed."
         exit 1
