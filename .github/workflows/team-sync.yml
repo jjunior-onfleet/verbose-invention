@@ -1,6 +1,7 @@
 name: team-sync
 env:
   designated_branch: team
+  slack_channel: C064EA5DBFV
 
 on:
   push:
@@ -19,3 +20,5 @@ jobs:
         with:
           gh_token: "${{ secrets.GITHUB_TOKEN }}"
           branch: "${{ env.designated_branch }}"
+          slack_channel: ${{ env.slack_channel }}
+          slack_token: ${{ secrets.SLACK_BOT_TOKEN }}

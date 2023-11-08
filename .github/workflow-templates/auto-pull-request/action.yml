@@ -11,6 +11,9 @@ inputs:
   slack_channel:
     description: "Slack channel ID for updates"
     required: true
+  slack_token:
+    description: "Secret slack token"
+    required: true
 
 runs:
   using: "composite"
@@ -72,6 +75,32 @@ runs:
     #   run: |
     #     echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
 
+    - name: Notify merge failure
+      id: slack_success
+      if: steps.automerge.outputs.mergeResult != 'merged'
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        channel-id: ${{ inputs.slack_channel }}
+        payload: |
+          {
+            "text": "Failed to auto-merge pull request #${{ steps.automerge.outputs.pullRequestNumber }}!",
+            "attachments": [
+              {
+                "pretext": "Auto-pull request",
+                "color": "FF0000",
+                "fields": [
+                  {
+                    "title": "Merge result",
+                    "short": true,
+                    "value": "${{ steps.automerge.outputs.mergeResult }}"
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
+
     - name: Notify merge success
       id: slack_success
       if: steps.automerge.outputs.mergeResult == 'merged'
@@ -80,7 +109,7 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!",
+            "text": "Pull request #${{ steps.automerge.outputs.pullRequestNumber }} successfully merged!",
             "attachments": [
               {
                 "pretext": "Auto-pull request",
@@ -96,30 +125,4 @@ runs:
             ]
           }
       env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
-    # - uses: slackapi/slack-github-action@v1.24.0
-    #   with:
-    #     # Unlike the step posting a new message, this step does not accept a channel name.
-    #     # Please use a channel ID, not a name here.
-    #     channel-id: "CHANNEL_ID"
-    #     update-ts: ${{ steps.slack.outputs.ts }}
-    #     payload: |
-    #       {
-    #         "text": "Deployment finished (Completed)",
-    #         "attachments": [
-    #           {
-    #             "pretext": "Deployment finished",
-    #             "color": "28a745",
-    #             "fields": [
-    #               {
-    #                 "title": "Status",
-    #                 "short": true,
-    #                 "value": "Completed"
-    #               }
-    #             ]
-    #           }
-    #         ]
-    #       }
-    #   env:
-    #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN}}
+        SLACK_BOT_TOKEN: ${{ inputs.slack_token }}

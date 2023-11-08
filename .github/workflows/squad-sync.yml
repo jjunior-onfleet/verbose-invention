@@ -21,3 +21,4 @@ jobs:
           gh_token: "${{ secrets.GITHUB_TOKEN }}"
           branch: "${{ env.designated_branch }}"
           slack_channel: ${{ env.slack_channel }}
+          slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
