@@ -15,19 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check if branch exists and create if necessary
-        shell: bash
-        run: |
-          if git ls-remote --heads origin refs/heads/"${{ env.designated_branch }}" | grep -q "${{ env.designated_branch }}"; then
-            echo "Branch ${{ env.designated_branch }} already exists."
-            echo "BRANCH_CREATED=false" >> $GITHUB_ENV
-          else
-            git checkout -b "${{ env.designated_branch }}"
-            git push origin "${{ env.designated_branch }}}"
-            echo "BRANCH_CREATED=true" >> $GITHUB_ENV
-          fi
+      - name: ensure desiganted branch exists
+        uses: "./.github/workflow-templates/ensure-branch"
+        with:
+          branch: "${{ env.designated_branch }}"
 
-      - name: auto-pull-request
+      - name: auto pull request and merge
         if: ${{ ! env.BRANCH_CREATED }}
         uses: "./.github/workflow-templates/auto-pull-request"
         with:

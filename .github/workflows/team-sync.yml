@@ -15,7 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: ensure desiganted branch exists
+        uses: "./.github/workflow-templates/ensure-branch"
+        with:
+          branch: "${{ env.designated_branch }}"
+
       - name: auto-pull-request
+        if: ${{ ! env.BRANCH_CREATED }}
         uses: "./.github/workflow-templates/auto-pull-request"
         with:
           branch: "${{ env.designated_branch }}"

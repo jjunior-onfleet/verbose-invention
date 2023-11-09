@@ -1,0 +1,23 @@
+name: ensure-branch
+description: Check if branch exists and create if necessary
+
+inputs:
+  branch:
+    description: "Designated branch name"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check if branch exists and create if necessary
+      shell: bash
+      run: |
+        branch_name="${{ inputs.branch }}"
+        if git ls-remote --heads origin refs/heads/"${branch_name}" | grep -q "${branch_name}"; then
+          echo "Branch ${branch_name} already exists."
+          echo "BRANCH_CREATED=false" >> $GITHUB_ENV
+        else
+          git checkout -b "${branch_name}"
+          git push origin "${branch_name}"
+          echo "BRANCH_CREATED=true" >> $GITHUB_ENV
+        fi
