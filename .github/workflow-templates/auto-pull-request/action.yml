@@ -21,25 +21,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Check if branch exists and create if necessary
-      shell: bash
-      run: |
-        branch_name="${{ inputs.branch }}"
-        if git ls-remote --heads origin refs/heads/"${branch_name}" | grep -q "${branch_name}"; then
-          echo "Branch ${branch_name} already exists."
-        else
-          git checkout -b "${branch_name}"
-          git push origin "${branch_name}"
-          echo "BRANCH_CREATED=true" >> $GITHUB_ENV
-        fi
-
-    - name: End workflow if branch is created
-      if: env.BRANCH_CREATED == 'true'
-      shell: bash
-      run: |
-        echo "Branch was just created. Skipping PR/merge steps."
-        exit 0
-
     - name: Ensure automerge label exists
       shell: bash
       env:
