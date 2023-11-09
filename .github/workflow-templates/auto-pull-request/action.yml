@@ -24,11 +24,12 @@ runs:
     - name: Check if branch exists and create if necessary
       shell: bash
       run: |
-        if git rev-parse --quiet --verify "${{ inputs.branch }}" > /dev/null; then
-          echo "Branch "${{ inputs.branch }}" already exists."
+        branch_name="${{ inputs.branch }}"
+        if git ls-remote --heads origin refs/heads/"${branch_name}" | grep -q "${branch_name}"; then
+          echo "Branch ${branch_name} already exists."
         else
-          git checkout -b "${{ inputs.branch }}"
-          git push origin "${{ inputs.branch }}"
+          git checkout -b "${branch_name}"
+          git push origin "${branch_name}"
           echo "BRANCH_CREATED=true" >> $GITHUB_ENV
         fi
 
