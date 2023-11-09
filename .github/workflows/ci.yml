@@ -33,28 +33,19 @@ jobs:
         shell: bash
         run: echo ${{ github.head_ref || github.ref_name }}
 
-      - name: ECS service deployment
-        run: |
-          if [[ "${{ github.head_ref || github.ref_name }}" == "release" ]] || [[ "${{ github.head_ref || github.ref_name }}" == "main" ]]; then
-            echo "master or release deployments currently not allowed. Skipping ECS deployment..."
-            exit 0
-          else
-            echo "aws ecs update-service --cluster ${{ github.head_ref || github.ref_name }} --service ${{ github.head_ref || github.ref_name }}-yerba --force-new-deployment --region us-east-1"
-          fi
-
       - name: Notify deploy
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: C064EA5DBFV
           payload: |
             {
-              "text": "*Deployment to ${{ github.head_ref || github.ref_name }} ECS cluster started*",
+              "text": "*Deployment to ECS cluster ${{ github.head_ref || github.ref_name }} started*",
               "attachments": [
                   {
                   "color": "0000FF",
                   "fields": [
                     {
-                      "value": ":rocket: Deployed `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
+                      "value": ":rocket: Deployed yerba image tagged `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
                       "short": false
                     }
                   ]
