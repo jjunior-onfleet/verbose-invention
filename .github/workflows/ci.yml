@@ -45,7 +45,7 @@ jobs:
                   "color": "0000FF",
                   "fields": [
                     {
-                      "value": ":rocket: Deployed yerba image taggged `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
+                      "value": ":rocket: Deployed yerba image tagged `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
                       "short": false
                     }
                   ]
