@@ -1,14 +1,15 @@
 {
-    "new_stuff": 1,
-    "missed_stuff": 2,
-    "additional_stuff": 3,
-    "new_feature": 4,
-    "another_one": 5,
-    "last_change": 6,
-    "pr_change": 8,
-    "another_pr_change": 9,
-    "automerge_stuff": 10,
-    "try_to_break": 12,
-    "looks_good": 13,
-    "test_ci_message": 14
+  "new_stuff": 1,
+  "missed_stuff": 2,
+  "additional_stuff": 3,
+  "new_feature": 4,
+  "another_one": 5,
+  "last_change": 6,
+  "pr_change": 8,
+  "another_pr_change": 9,
+  "automerge_stuff": 10,
+  "try_to_break": 12,
+  "looks_good": 13,
+  "test_ci_message": 14,
+  "test_ci_message_2": 16
 }
