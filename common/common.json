@@ -11,5 +11,6 @@
   "try_to_break": 12,
   "looks_good": 13,
   "test_ci_message": 14,
-  "test_ci_message_2": 16
+  "test_ci_message_2": 16,
+  "last_test?": 17
 }
