@@ -18,10 +18,10 @@ jobs:
       - name: ensure desiganted branch exists
         uses: "./.github/workflow-templates/ensure-branch"
         with:
-            branch: "${{ env.designated_branch }}"
+          branch: "${{ env.designated_branch }}"
 
       - name: auto-pull-request
-        if: ${{ ! env.BRANCH_CREATED }}
+        if: ${{ env.BRANCH_CREATED == 'false' }}
         uses: "./.github/workflow-templates/auto-pull-request"
         with:
           branch: "${{ env.designated_branch }}"
