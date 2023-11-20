@@ -21,12 +21,12 @@ jobs:
         with:
           branch: "${{ env.designated_branch }}"
 
-      # - name: auto-pull-request
-      #   if: ${{ env.BRANCH_CREATED == 'false' }}
-      #   uses: "./.github/workflow-templates/auto-pull-request"
-      #   with:
-      #     branch: "${{ env.designated_branch }}"
-      #     gh_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     slack_channel: "${{ env.slack_channel }}"
-      #     slack_token: "${{ secrets.SLACK_BOT_TOKEN }}"
-      #     pr_base_url: "${{ github.server_url }}/${{ github.repository }}/pull"
+      - name: auto-pull-request
+        if: ${{ env.BRANCH_CREATED == 'false' }}
+        uses: "./.github/workflow-templates/auto-pull-request"
+        with:
+          branch: "${{ env.designated_branch }}"
+          gh_token: "${{ secrets.GITHUB_TOKEN }}"
+          slack_channel: "${{ env.slack_channel }}"
+          slack_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          pr_base_url: "${{ github.server_url }}/${{ github.repository }}/pull"
