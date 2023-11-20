@@ -9,9 +9,6 @@ on:
       - release
       - squad
       - team
-    paths:
-      - ".github/**"
-      - "common/**"
 
 env:
   SLACK_BOT_TOKEN: "${{ secrets.SLACK_BOT_TOKEN }}"
@@ -28,27 +25,33 @@ jobs:
         shell: bash
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
 
-      - name: print current branch
-        id: target_branch
+      - name: print head_ref branch
+        id: head_ref
         shell: bash
-        run: echo ${{ github.head_ref || github.ref_name }}
+        run: echo ${{ github.head_ref }}
 
-      - name: Notify deploy
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: C064EA5DBFV
-          payload: |
-            {
-              "text": "*Deployment to ECS cluster ${{ github.head_ref || github.ref_name }} started*",
-              "attachments": [
-                  {
-                  "color": "0000FF",
-                  "fields": [
-                    {
-                      "value": ":rocket: Deployed yerba image tagged `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
-                      "short": false
-                    }
-                  ]
-                }
-              ]
-            }
+
+      - name: print ref_name branch
+        id: ref_name
+        shell: bash
+        run: echo ${{ github.ref_name }}        
+
+      # - name: Notify deploy
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with:
+      #     channel-id: C064EA5DBFV
+      #     payload: |
+      #       {
+      #         "text": "*Deployment to ECS cluster ${{ github.head_ref || github.ref_name }} started*",
+      #         "attachments": [
+      #             {
+      #             "color": "0000FF",
+      #             "fields": [
+      #               {
+      #                 "value": ":rocket: Deployed yerba image tagged `${{ env.GITHUB_SHA_SHORT }}` to `${{ github.head_ref || github.ref_name }}`",
+      #                 "short": false
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
