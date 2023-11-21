@@ -30,3 +30,9 @@ jobs:
           slack_channel: "${{ env.slack_channel }}"
           slack_token: "${{ secrets.SLACK_BOT_TOKEN }}"
           pr_base_url: "${{ github.server_url }}/${{ github.repository }}/pull"
+
+      - name: call the ci scripts
+        run: |
+          gh workflow run ci --ref "${{ env.designated_branch }}"
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
