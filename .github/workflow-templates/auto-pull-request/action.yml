@@ -89,7 +89,7 @@ runs:
         channel-id: ${{ inputs.slack_channel }}
         payload: |
           {
-            "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} not merged*",
+            "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} not merged and closed*",
             "attachments": [
               {
                 "color": "FF0000",
