@@ -67,67 +67,68 @@ runs:
 
     - name: Attempt auto-merge
       id: automerge
-      uses: "pascalgn/automerge-action@v0.15.6"
+      uses: "pascalgn/automerge-action@v0.16.2"
       env:
         GITHUB_TOKEN: "${{ inputs.gh_token }}"
         PULL_REQUEST: ${{ env.PR_EXISTS || env.PR_NUMBER }}
+        MERGE_METHOD: squash
 
-    - name: Auto-close failed PR
-      id: autoclose
-      if: steps.automerge.outputs.mergeResult != 'merged'
-      shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.gh_token }}
-      run: |
-        gh pr close ${{ env.PR_NUMBER }}
+    # - name: Auto-close failed PR
+    #   id: autoclose
+    #   if: steps.automerge.outputs.mergeResult != 'merged'
+    #   shell: bash
+    #   env:
+    #     GH_TOKEN: ${{ inputs.gh_token }}
+    #   run: |
+    #     gh pr close ${{ env.PR_NUMBER }}
 
-    - name: Notify merge failure
-      id: slack_failure
-      if: steps.automerge.outputs.mergeResult != 'merged'
-      uses: slackapi/slack-github-action@v1.24.0
-      with:
-        channel-id: ${{ inputs.slack_channel }}
-        payload: |
-          {
-            "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} not merged and closed*",
-            "attachments": [
-              {
-                "color": "FF0000",
-                "fields": [
-                  {
-                    "value": ":this_is_fine: *Action required*: unable to auto-merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
-                    "short": false
-                  }
-                ]
-              }
-            ]
-          }
-      env:
-        SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
+    # - name: Notify merge failure
+    #   id: slack_failure
+    #   if: steps.automerge.outputs.mergeResult != 'merged'
+    #   uses: slackapi/slack-github-action@v1.24.0
+    #   with:
+    #     channel-id: ${{ inputs.slack_channel }}
+    #     payload: |
+    #       {
+    #         "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} not merged and closed*",
+    #         "attachments": [
+    #           {
+    #             "color": "FF0000",
+    #             "fields": [
+    #               {
+    #                 "value": ":this_is_fine: *Action required*: unable to auto-merge `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
+    #                 "short": false
+    #               }
+    #             ]
+    #           }
+    #         ]
+    #       }
+    #   env:
+    #     SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
 
-    - name: Notify merge success
-      id: slack_success
-      if: steps.automerge.outputs.mergeResult == 'merged'
-      uses: slackapi/slack-github-action@v1.24.0
-      with:
-        channel-id: ${{ inputs.slack_channel }}
-        payload: |
-          {
-            "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} merged*",
-            "attachments": [
-              {
-                "color": "008000",
-                "fields": [
-                  {
-                    "value": ":white_check_mark: Successfully auto-merged branch `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
-                    "short": false
-                  }
-                ]
-              }
-            ]
-          }
-      env:
-        SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
+    # - name: Notify merge success
+    #   id: slack_success
+    #   if: steps.automerge.outputs.mergeResult == 'merged'
+    #   uses: slackapi/slack-github-action@v1.24.0
+    #   with:
+    #     channel-id: ${{ inputs.slack_channel }}
+    #     payload: |
+    #       {
+    #         "text": "*Pull request #${{ steps.automerge.outputs.pullRequestNumber }} merged*",
+    #         "attachments": [
+    #           {
+    #             "color": "008000",
+    #             "fields": [
+    #               {
+    #                 "value": ":white_check_mark: Successfully auto-merged branch `main` into `${{ inputs.branch }}`. \nPull request: ${{ inputs.pr_base_url }}/${{ steps.automerge.outputs.pullRequestNumber }}",
+    #                 "short": false
+    #               }
+    #             ]
+    #           }
+    #         ]
+    #       }
+    #   env:
+    #     SLACK_BOT_TOKEN: ${{ inputs.slack_token }}
 
     - name: Fail workflow
       shell: bash
