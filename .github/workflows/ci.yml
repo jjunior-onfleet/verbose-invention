@@ -43,7 +43,7 @@ jobs:
           GIT_BRANCH=$(echo $GIT_BRANCH | tr '[:lower:]' '[:upper:]')
           ID_VAR_NAME="${GIT_BRANCH}_CHANNEL_ID"
           
-          VARS_JSON="${{ vars }}"
+          VARS_JSON="${{ toJson(vars) }}"
           
           ID_VAR_VALUE=$(echo "$VARS_JSON" | jq -r ."$ID_VAR_NAME")
           echo $ID_VAR_VALUE
