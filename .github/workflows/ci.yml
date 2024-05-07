@@ -9,7 +9,7 @@ on:
       - release
       - squad
       - team
-
+      - test1
 env:
   SLACK_BOT_TOKEN: "${{ secrets.SLACK_BOT_TOKEN }}"
 
@@ -30,6 +30,10 @@ jobs:
         shell: bash
         run: echo ${{ github.head_ref }}
 
+      - name: print channel ID
+        id: channel_id
+        shell: bash
+        run: echo $${{ vars.TEST1_CHANNEL_ID }}
 
       - name: print ref_name branch
         id: ref_name
