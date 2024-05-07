@@ -40,7 +40,8 @@ jobs:
         shell: bash
         run: |
           GIT_BRANCH=$(echo ${{ github.head_ref || github.ref_name }} | tr '[:lower:]' '[:upper:]')
-          echo channel_id=$(echo '${{ toJson(vars) }}' | jq -r ."${GIT_BRANCH}_CHANNEL_ID") >> $GITHUB_ENV
+          channel_id=$(echo '${{ toJson(vars) }}' | jq -r ."${GIT_BRANCH}_CHANNEL_ID") 
+          echo "channel_id=$channel_id" >> $GITHUB_ENV
           echo "channel_id=$channel_id" >> $GITHUB_OUTPUT
 
       - name: print channel ID output
