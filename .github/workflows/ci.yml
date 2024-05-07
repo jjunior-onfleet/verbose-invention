@@ -42,7 +42,8 @@ jobs:
           GIT_BRANCH=${{ github.head_ref || github.ref_name }}
           GIT_BRANCH=$(echo $GIT_BRANCH | tr '[:lower:]' '[:upper:]')
           ID_VAR_NAME="${GIT_BRANCH}_CHANNEL_ID"
-          ID_VAR_VALUE=${{ env.$ID_VAR_NAME }}
+          VARS_JSON="${{ toJson(vars) }}"
+          ID_VAR_VALUE=$(echo "$VARS_JSON" | jq -r ."$ID_VAR_NAME")
           echo $ID_VAR_VALUE
 
       # - name: Notify deploy
