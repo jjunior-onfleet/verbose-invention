@@ -35,15 +35,29 @@ jobs:
       #   shell: bash
       #   run: echo ${{ github.ref_name }}        
 
-      - name: print channel ID
-        id: channel_id
+      - name: get channel ID
+        id: get_channel_id
         shell: bash
         run: |
-          GIT_BRANCH=${{ github.head_ref || github.ref_name }}
-          GIT_BRANCH=$(echo $GIT_BRANCH | tr '[:lower:]' '[:upper:]')
-          ID_VAR_VALUE=$(echo '${{ toJson(vars) }}' | jq -r ."${GIT_BRANCH}_CHANNEL_ID")
-          echo $ID_VAR_VALUE
+          GIT_BRANCH=$(echo ${{ github.head_ref || github.ref_name }} | tr '[:lower:]' '[:upper:]')
+          echo channel_id=$(echo '${{ toJson(vars) }}' | jq -r ."${GIT_BRANCH}_CHANNEL_ID") >> $GITHUB_ENV
+          echo "::set-output name=channel_id::$channel_id"
 
+    outputs:
+      channel_id: ${{ steps.get_channel_id.outputs.channel_id }}
+
+
+  print:
+    runs-on: ubuntu-latest
+    needs: ci
+    env: 
+      # This will get the slack timestamp from the message sent in the notify_start job
+      channel_id: ${{ needs.ci.outputs.channel_id }}
+    steps:
+      - name: print channel_id
+        shell: bash
+        run: echo ${{ env.channel_id }}
+  
       # - name: Notify deploy
       #   uses: slackapi/slack-github-action@v1.24.0
       #   with:
