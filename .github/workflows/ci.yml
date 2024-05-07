@@ -43,6 +43,14 @@ jobs:
           echo channel_id=$(echo '${{ toJson(vars) }}' | jq -r ."${GIT_BRANCH}_CHANNEL_ID") >> $GITHUB_ENV
           echo "::set-output name=channel_id::$channel_id"
 
+      - name: print channel ID output
+        shell: bash
+        run: echo ${{ steps.get_channel_id.outputs.channel_id }}
+
+      - name: print channel ID variable
+        shell: bash
+        run: echo ${{ env.channel_id }}
+
     outputs:
       channel_id: ${{ steps.get_channel_id.outputs.channel_id }}
 
