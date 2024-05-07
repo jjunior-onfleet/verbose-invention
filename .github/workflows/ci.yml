@@ -25,20 +25,29 @@ jobs:
         shell: bash
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
 
-      - name: print head_ref branch
-        id: head_ref
-        shell: bash
-        run: echo ${{ github.head_ref }}
+      # - name: print head_ref branch
+      #   id: head_ref
+      #   shell: bash
+      #   run: echo ${{ github.head_ref }}
+
+      # - name: print ref_name branch
+      #   id: ref_name
+      #   shell: bash
+      #   run: echo ${{ github.ref_name }}        
 
       - name: print channel ID
         id: channel_id
         shell: bash
-        run: echo $${{ vars.TEST1_CHANNEL_ID }}
-
-      - name: print ref_name branch
-        id: ref_name
-        shell: bash
-        run: echo ${{ github.ref_name }}        
+        run: |
+          GIT_BRANCH=${{ github.head_ref || github.ref_name }}
+          GIT_BRANCH=$(echo $GIT_BRANCH | tr '[:lower:]' '[:upper:]')
+          ID_VAR_NAME="${GIT_BRANCH}_CHANNEL_ID"
+          
+          VARS_JSON="${{ toJson(vars) }}"
+          VARS_OBJECT=$(echo "$VARS_JSON" | jq -r .)
+          
+          ID_VAR_VALUE=$(echo "$VARS_OBJECT" | jq -r ."$ID_VAR_NAME")
+          echo $ID_VAR_VALUE
 
       # - name: Notify deploy
       #   uses: slackapi/slack-github-action@v1.24.0
